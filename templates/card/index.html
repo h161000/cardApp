@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Card List{% endblock %}
+{% block content %}
+<h1>Card List</h1>
+<a href="{% url 'card:create' %}">新規作成</a>
+
+<form id="deleteForm" method="POST" action="{% url 'card:delete_selected' %}">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <th>選択</th>
+            <th>タイトル</th>
+            <th>説明</th>
+            <th>作成日時</th>
+            <th>編集</th>
+        </tr>
+        {% for card in card_list %}
+        <tr>
+            <td><input type="checkbox" name="selected_cards" value="{{ card.id }}"></td>
+            <td>{{ card.title }}</td>
+            <td>{{ card.description }}</td>
+            <td>{{ card.created_at }}</td>
+            <td><a href="{% url 'card:update' card.id %}">編集</a></td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="5"><input type="submit" value="削除"></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}
