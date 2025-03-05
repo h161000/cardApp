@@ -13,3 +13,4 @@ staticfiles/
 .DS_Store
 *.log
 local_settings.py 
+docker-compose.yml
