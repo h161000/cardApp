@@ -1,0 +1,26 @@
+FROM node:20-slim
+
+WORKDIR /app
+
+# 開発に必要なパッケージをインストール
+RUN npm install -g npm@latest
+
+# package.jsonが存在する場合はコピーして依存関係をインストール
+COPY package*.json* ./
+RUN if [ -f "package.json" ]; then npm install; else echo "No package.json found. Will initialize later."; fi
+
+# ポートの設定
+EXPOSE 3000
+
+# エントリポイントスクリプトの作成
+RUN echo '#!/bin/bash\n\
+    if [ ! -f "package.json" ]; then\n\
+    echo "Initializing React app..."\n\
+    npx create-react-app . --template typescript\n\
+    fi\n\
+    npm start' > /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# エントリポイントの設定
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
