@@ -1,0 +1,41 @@
+{
+  "status": "done",
+  "assets": {
+    "asset-manifest.json": {
+      "name": "asset-manifest.json",
+      "path": "/app/build/asset-manifest.json",
+      "publicPath": "http://localhost:3000/asset-manifest.json"
+    },
+    "index.html": {
+      "name": "index.html",
+      "path": "/app/build/index.html",
+      "publicPath": "http://localhost:3000/index.html"
+    },
+    "static/js/bundle.js": {
+      "name": "static/js/bundle.js",
+      "path": "/app/build/static/js/bundle.js",
+      "publicPath": "http://localhost:3000/static/js/bundle.js"
+    },
+    "static/js/bundle.js.map": {
+      "name": "static/js/bundle.js.map",
+      "path": "/app/build/static/js/bundle.js.map",
+      "publicPath": "http://localhost:3000/static/js/bundle.js.map"
+    },
+    "static/js/node_modules_web-vitals_dist_web-vitals_js.chunk.js": {
+      "name": "static/js/node_modules_web-vitals_dist_web-vitals_js.chunk.js",
+      "path": "/app/build/static/js/node_modules_web-vitals_dist_web-vitals_js.chunk.js",
+      "publicPath": "http://localhost:3000/static/js/node_modules_web-vitals_dist_web-vitals_js.chunk.js"
+    },
+    "static/js/node_modules_web-vitals_dist_web-vitals_js.chunk.js.map": {
+      "name": "static/js/node_modules_web-vitals_dist_web-vitals_js.chunk.js.map",
+      "path": "/app/build/static/js/node_modules_web-vitals_dist_web-vitals_js.chunk.js.map",
+      "publicPath": "http://localhost:3000/static/js/node_modules_web-vitals_dist_web-vitals_js.chunk.js.map"
+    }
+  },
+  "chunks": {
+    "main": [
+      "static/js/bundle.js"
+    ]
+  },
+  "publicPath": "http://localhost:3000/"
+}

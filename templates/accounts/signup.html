@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% load static %}
+{% load render_bundle from webpack_loader %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
-    {% block css %}{% endblock %}
-</head>
+{% block title %}サインアップ{% endblock %}
 
-<body>
-    {% block content %}{% endblock %}
-    {% block js %}{% endblock %}
-</body>
+{% block content %}
+<div id="root"></div>
+{% render_bundle 'main' %}
+{% endblock %}
 
-</html>
+{% block script %}
+{% comment %} webpack_loaderを使用してReactのバンドルを読み込む {% endcomment %}
+{% render_bundle 'main' %}
+{% endblock %}

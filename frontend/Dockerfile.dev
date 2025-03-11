@@ -9,18 +9,14 @@ RUN npm install -g npm@latest
 COPY package*.json* ./
 RUN if [ -f "package.json" ]; then npm install; else echo "No package.json found. Will initialize later."; fi
 
+# ソースコードをコピー
+COPY . .
+
+# 追加の依存関係をインストール
+RUN npm install --save-dev react-app-rewired webpack-bundle-tracker
+
 # ポートの設定
 EXPOSE 3000
 
-# エントリポイントスクリプトの作成
-RUN echo '#!/bin/bash\n\
-    if [ ! -f "package.json" ]; then\n\
-    echo "Initializing React app..."\n\
-    npx create-react-app . --template typescript\n\
-    fi\n\
-    npm start' > /usr/local/bin/entrypoint.sh
-
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
-# エントリポイントの設定
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# 開発サーバーを起動
+CMD ["npm", "start"]

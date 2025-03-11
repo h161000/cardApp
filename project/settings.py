@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
+    "webpack_loader",
     # プロジェクト固有のアプリケーション
     "card",
     "accounts",
@@ -146,7 +147,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 # Static files root directory
 # STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -155,7 +156,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # Additional locations of static files
 STATICFILES_DIRS = [
     # BASE_DIR / 'static',
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "frontend/build/static"),
 ]
 
 # Default primary key field type
@@ -193,6 +194,8 @@ LOGOUT_REDIRECT_URL = "/"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
@@ -218,7 +221,18 @@ CORS_ALLOW_ALL_ORIGINS = True  # 開発環境用の設定
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 # 本番環境では下記のように具体的なオリジンを指定する
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",
-#     "http://127.0.0.1:3000",
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+WEBPACK_LOADER = {
+    "DEFAULT": {
+        "CACHE": not DEBUG,
+        "BUNDLE_DIR_NAME": "frontend/build/",
+        "STATS_FILE": os.path.join(BASE_DIR, "frontend/webpack-stats.json"),
+        "POLL_INTERVAL": 0.1,
+        "TIMEOUT": None,
+        "IGNORE": [r".+\.hot-update.js", r".+\.map"],
+    }
+}

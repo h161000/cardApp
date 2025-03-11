@@ -2,8 +2,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from rest_framework import status
+from django.views.generic import CreateView, TemplateView
+from rest_framework import generics, status
 from rest_framework.response import Response
 
 from api.serializers import RegisterSerializer
@@ -72,3 +72,7 @@ class CustomLoginView(LoginView):
         # テンプレートで使用するタイトルを追加
         context["title"] = "ログイン"
         return context
+
+
+class SignUpAPIView(TemplateView):
+    template_name = "index.html"  # Reactアプリケーションのエントリーポイント
