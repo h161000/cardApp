@@ -5,15 +5,14 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from api.serializers import RegisterSerializer
-
-from .forms import SignUpForm
 
 # Create your views here.
 
 
-class SignUpView(CreateView):
+class SignUpView(TemplateView):
     form_class = UserCreationForm
     template_name = "accounts/signup.html"
     success_url = reverse_lazy("login")
@@ -56,7 +55,7 @@ class CustomLoginView(LoginView):
         Returns:
             str: リダイレクト先のURL（この場合はcard:indexビュー）
         """
-        return reverse_lazy("card:index")  # ログイン後のリダイレクト先
+        return reverse_lazy("card:list")  # ログイン後のリダイレクト先
 
     def get_context_data(self, **kwargs):
         """
@@ -74,5 +73,10 @@ class CustomLoginView(LoginView):
         return context
 
 
-class SignUpAPIView(TemplateView):
-    template_name = "index.html"  # Reactアプリケーションのエントリーポイント
+class SignUpAPIView(APIView):
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

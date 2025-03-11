@@ -48,7 +48,7 @@ apiClient.interceptors.response.use(
             // axios.post:POSTリクエスト送信
             // `${API_URL}/token/refresh/`:リフレッシュトークンを送信するエンドポイント
             // { refresh: refreshToken }:送信するリフレッシュトークン
-            const response = await axios.post(`${API_URL}/token/refresh/`, {
+            const response = await apiClient.post('/register/', {
             refresh: refreshToken
             });
             const data = response.data as TokenResponse;

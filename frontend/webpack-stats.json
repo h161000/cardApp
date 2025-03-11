@@ -11,6 +11,21 @@
       "path": "/app/build/index.html",
       "publicPath": "http://localhost:3000/index.html"
     },
+    "main.33bdde6fd12e17146a56.hot-update.js": {
+      "name": "main.33bdde6fd12e17146a56.hot-update.js",
+      "path": "/app/build/main.33bdde6fd12e17146a56.hot-update.js",
+      "publicPath": "http://localhost:3000/main.33bdde6fd12e17146a56.hot-update.js"
+    },
+    "main.33bdde6fd12e17146a56.hot-update.js.map": {
+      "name": "main.33bdde6fd12e17146a56.hot-update.js.map",
+      "path": "/app/build/main.33bdde6fd12e17146a56.hot-update.js.map",
+      "publicPath": "http://localhost:3000/main.33bdde6fd12e17146a56.hot-update.js.map"
+    },
+    "main.33bdde6fd12e17146a56.hot-update.json": {
+      "name": "main.33bdde6fd12e17146a56.hot-update.json",
+      "path": "/app/build/main.33bdde6fd12e17146a56.hot-update.json",
+      "publicPath": "http://localhost:3000/main.33bdde6fd12e17146a56.hot-update.json"
+    },
     "static/js/bundle.js": {
       "name": "static/js/bundle.js",
       "path": "/app/build/static/js/bundle.js",
