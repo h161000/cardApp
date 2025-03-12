@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '../services/api';
 
 // カードの型定義
-interface Card {
+interface cardList {
 id: number;
 title: string;
 description: string;
@@ -11,10 +11,11 @@ created_at: string;
 }
 
 const CardList: React.FC = () => {
-const [cards, setCards] = useState<Card[]>([]);
+const [cards, setCards] = useState<cardList[]>([]);
 const [selectedCards, setSelectedCards] = useState<number[]>([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState('');
+const navigate = useNavigate();
 
 // カード一覧を取得する
 // useEffect：APIからデータを取得
@@ -22,7 +23,7 @@ useEffect(() => {
     const fetchCards = async () => {
         try {
             // CardListView(cardView)のgetメソッドにリクエストを送信
-            const response = await apiClient.get<Card[]>('/card/api/');
+            const response = await apiClient.get<cardList[]>('/card/');
             setCards(response.data);
             setLoading(false);
         } catch (err) {
@@ -58,11 +59,11 @@ const handleDelete = async () => {
 
     try {
         // card"DeleteSelectedView"classを呼び出す
-    await apiClient.post('/card/api/delete-selected/', {
+    await apiClient.post('/card/delete-selected/', {
         selected_cards: selectedCards
     });
     // 削除後にカード一覧を再取得
-    const response = await apiClient.get<Card[]>('/card/api/');
+    const response = await apiClient.get<cardList[]>('/card/');
     setCards(response.data);
     setSelectedCards([]); // 選択をリセット
     } catch (err) {
@@ -70,13 +71,38 @@ const handleDelete = async () => {
     }
 };
 
+// ログアウト
+const handleLogout = async () => {
+    const confirmLogout = window.confirm('ログアウトしますか？');
+    if(!confirmLogout) {
+        return;
+    }
+
+
+    try{
+        // ローカルストレージからリフレッシュトークンを取得
+        const refreshToken = localStorage.getItem('refresh_token');
+        // LogOutViewのpostメソッドにリクエストを送信
+        await apiClient.post('/logout/', {
+            refresh: refreshToken
+        });
+        // ローカルストレージからアクセストークンとリフレッシュトークンを削除
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        navigate('/accounts/login');
+    }catch(err){
+        setError('ログアウトに失敗しました。');
+    }
+}
+
 if (loading) return <p>読み込み中...</p>;
 if (error) return <p className="error">{error}</p>;
 
 return (
     <div className="card-list-container">
     <h1>Card List</h1>
-    <Link to="/card/create/" className="create-link">新規作成</Link>
+    <button onClick={() => navigate('/card/create/')}>新規作成</button>
+    <button onClick={handleLogout}>ログアウト</button>
 
     <div className="card-table-container">
         <table className="card-table">

@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}Card{% endblock %}
-{% block content %}
-<h1>Card</h1>
+{% load static %}
+{% load render_bundle from webpack_loader %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">登録</button>
-</form>
+{% block title %}カード登録{% endblock %}
+
+{% block content %}
+<div id="root"></div>
+{% endblock %}
+
+
+{% block js %}
+{% comment %} webpack_loaderを使用してReactのバンドルを読み込む {% endcomment %}
+{% render_bundle 'main' %}
 {% endblock %}

@@ -1,23 +1,19 @@
 from django.urls import path
-
-from . import api_views, views
+from django.views.generic import TemplateView
 
 app_name = "card"
 
 urlpatterns = [
     # HTMLビュー
-    path("", views.CardListView.as_view(), name="list"),
-    path("create/", views.CardCreateView.as_view(), name="create"),
-    path("update/<int:pk>/", views.CardUpdateView.as_view(), name="update"),
+    path("", TemplateView.as_view(template_name="card/list.html"), name="list"),
     path(
-        "delete-selected/", views.DeleteSelectedView.as_view(), name="delete_selected"
+        "update/<int:id>/",
+        TemplateView.as_view(template_name="card/edit.html"),
+        name="edit",
     ),
-    # APIエンドポイント
-    path("api/", api_views.CardListCreateAPIView.as_view(), name="api_list_create"),
-    path("api/<int:pk>/", api_views.CardDetailAPIView.as_view(), name="api_detail"),
     path(
-        "api/delete-selected/",
-        api_views.DeleteSelectedCardsAPIView.as_view(),
-        name="api_delete_selected",
+        "accounts/login/",
+        TemplateView.as_view(template_name="accounts/login.html"),
+        name="login",
     ),
 ]

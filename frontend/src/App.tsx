@@ -6,6 +6,14 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signup from './accounts/signup';
 // card/cardList.tsxをインポート
 import CardList from './card/cardList';
+// card/cardCreate.tsxをインポート
+import CardCreate from './card/cardCreate';
+// card/cardEdit.tsxをインポート
+import CardEdit from './card/cardEdit';
+
+// ログインページをインポート
+import Login from './accounts/login';
+
 import './App.css';
 
 function App() {
@@ -18,10 +26,17 @@ function App() {
           <Route path='/accounts/signup' element={<Signup />} />
           <Route path='/accounts/signup/' element={<Signup />} />
 
+          {/* ログインページのルートを追加 */}
+          <Route path='/accounts/login' element={<Login />} />
+          <Route path='/accounts/login/' element={<Login />} />
+
           {/* ルートを定義し "/card"にアクセス時にCardListコンポーネントを表示する */}
           <Route path='/card/' element={<CardList />} />
-          {/* <Route path='/card/create/' element={<CardCreate />} />
-          <Route path='/card/update/:id/' element={<CardUpdate />} /> */}
+          {/* ルートを定義し "//card/create/"にアクセス時にCardCreateコンポーネントを表示する */}
+          <Route path='/card/create/' element={<CardCreate />} />
+          {/* ルートを定義し "/card/update/:id/"にアクセス時にCardEditコンポーネントを表示する */}
+          <Route path='/card/update/:id/' element={<CardEdit />} />
+
           {/* 他のルートもここに追加 */}
         </Routes>
       </div>
