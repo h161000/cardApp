@@ -16,6 +16,7 @@ const [selectedCards, setSelectedCards] = useState<number[]>([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState('');
 const navigate = useNavigate();
+const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 // カード一覧を取得する
 // useEffect：APIからデータを取得
@@ -52,9 +53,9 @@ const handleCheckboxChange = (cardId: number) => {
 
 // 選択したカードを削除する
 const handleDelete = async () => {
-    if (selectedCards.length === 0) {
-    setError('削除するカードを選択してください。');
-    return;
+    const confirmDelete = window.confirm('削除しますか？');
+    if (!confirmDelete) {
+        return;
     }
 
     try {
@@ -94,56 +95,57 @@ const handleLogout = async () => {
         setError('ログアウトに失敗しました。');
     }
 }
+const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+};
 
 if (loading) return <p>読み込み中...</p>;
 if (error) return <p className="error">{error}</p>;
 
 return (
-    <div className="card-list-container">
-    <h1>Card List</h1>
-    <button onClick={() => navigate('/card/create/')}>新規作成</button>
-    <button onClick={handleLogout}>ログアウト</button>
-
-    <div className="card-table-container">
-        <table className="card-table">
-        <thead>
-            <tr>
-                <th>選択</th>
-                <th>タイトル</th>
-                <th>説明</th>
-                <th>作成日時</th>
-                <th>編集</th>
-            </tr>
-        </thead>
-        <tbody>
-            {cards.map(card => (
-                <tr key={card.id}>
-                    <td>
-                        <input
-                            type="checkbox"
-                            checked={selectedCards.includes(card.id)}
-                            onChange={() => handleCheckboxChange(card.id)}
-                        />
-                    </td>
-                    <td>{card.title}</td>
-                    <td>{card.description}</td>
-                    <td>{new Date(card.created_at).toLocaleString()}</td>
-                    <td>
-                    <Link to={`/card/update/${card.id}/`}>編集</Link>
-                    </td>
+    <div>
+        <header className="header">
+        <nav className="header-nav">
+            <a className="header-logo" href="#" aria-label="Card">Card</a>
+            <div className="header-menu">
+                <a className="header-link" onClick={handleLogout} href="#" role="button">Logout</a>
+            </div>
+        </nav>
+        </header>
+        <div className='leftSide'>
+            <button className="blueLink" onClick={() => navigate('/card/create/')}>新規作成</button>
+        </div>
+        <div className="table-container">
+            <table className="card-table">
+            <thead className="card-thead">
+                <tr className="card-thead-row">
+                    <th className="card-th">選択</th>
+                    <th className="card-th">タイトル</th>
+                    <th className="card-th">説明</th>
+                    <th className="card-th">作成日時</th>
                 </tr>
-            ))}
-        </tbody>
-        </table>
-    </div>
-
-    <button
-        onClick={handleDelete}
-        disabled={selectedCards.length === 0}
-        className="delete-button"
-    >
-        選択したカードを削除
-    </button>
+            </thead>
+            <tbody className="card-tbody">
+                {cards.map(card => (
+                    <tr className="card-tr" key={card.id}>
+                        <td className="card-td">
+                            <input
+                                type="checkbox"
+                                checked={selectedCards.includes(card.id)}
+                                onChange={() => handleCheckboxChange(card.id)}
+                            />
+                        </td>
+                        <td className="card-td"><Link to={`/card/update/${card.id}/`}>{card.title}</Link></td>
+                        <td className="card-td">{card.description}</td>
+                        <td className="card-td">{new Date(card.created_at).toLocaleString()}</td>
+                    </tr>
+                ))}
+            </tbody>
+            </table>
+        </div>
+        <div className='leftSide'>
+        <button className="deleteButton" onClick={handleDelete} style={{ display: selectedCards.length === 0 ? 'none' : 'block' }}>削除</button>
+        </div>
     </div>
 );
 };

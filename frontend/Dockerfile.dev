@@ -5,18 +5,26 @@ WORKDIR /app
 # 開発に必要なパッケージをインストール
 RUN npm install -g npm@latest
 
-# package.jsonが存在する場合はコピーして依存関係をインストール
-COPY package*.json* ./
-RUN if [ -f "package.json" ]; then npm install; else echo "No package.json found. Will initialize later."; fi
+# package.jsonとpackage-lock.jsonをコピー
+COPY package*.json ./
+
+# すべての依存関係をインストール（開発用依存関係を含む）
+RUN npm install --include=dev
+
+# node_modulesのパーミッションを修正
+RUN chmod -R 755 node_modules/
 
 # ソースコードをコピー
 COPY . .
 
-# 追加の依存関係をインストール
-RUN npm install --save-dev react-app-rewired webpack-bundle-tracker
+# 環境変数の設定
+ENV WDS_SOCKET_HOST=0.0.0.0
+ENV WDS_SOCKET_PORT=3000
+ENV WATCHPACK_POLLING=true
+ENV FAST_REFRESH=false
 
 # ポートの設定
 EXPOSE 3000
 
-# 開発サーバーを起動
-CMD ["npm", "start"]
+# 開発サーバーを起動（npxを使用）
+CMD ["npx", "--no-install", "react-app-rewired", "start"]
