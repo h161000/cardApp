@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 // apiClientをインポート
 import apiClient from '../services/api';
 
+
 interface ResponseData {
 	access: string;
 	refresh: string;
@@ -42,7 +43,7 @@ const Signup: React.FC = () => {
 			}
 			// ログインページへリダイレクト
 			setTimeout(() => {
-				window.location.href = '/accounts/login';
+				window.location.href = '/accountss/login';
 			}, 2000);
 			// サインアップ成功後の処理
 		} catch (error:any) {
@@ -55,31 +56,35 @@ const Signup: React.FC = () => {
 	};
 
 	return (
-		<div>
-			<h2>サインアップ</h2>
-			{error && <p style={{ color: 'red' }}>{error}</p>}
-			<form onSubmit={handleSubmit}>
-				<div>
-					<label>ユーザー名:</label>
-					<input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+		<section className="accountsSection">
+			<div className="accountsContainer">
+				<div className="accountsCard">
+					<h2 className="accountsHeading">サインアップ</h2>
+					{error && <p style={{ color: 'red' }}>{error}</p>}
+					<form className="accountsForm" onSubmit={handleSubmit}>
+						<div className="formGroup">
+							<label className="formLabel">ユーザー名</label>
+							<input className="formInput" type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+						</div>
+						<div className="formGroup">
+							<label className="formLabel">メールアドレス</label>
+							<input className="formInput" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+						</div>
+						<div className="formGroup">
+							<label className="formLabel">パスワード</label>
+							<input className="formInput" type="password" value={password1} onChange={(e) => setPassword1(e.target.value)} required />
+						</div>
+						<div className="formGroup">
+							<label>パスワード（確認用）</label>
+							<input className="formInput" type="password" value={password2} onChange={(e) => setPassword2(e.target.value)} required/>
+						</div>
+						<button className="submitButton" type="submit">サインアップ</button>
+						<a href="/accounts/login" className="blueLink">キャンセル</a>
+					</form>
 				</div>
-				<div>
-					<label>メールアドレス:</label>
-					<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-				</div>
-				<div>
-					<label>パスワード:</label>
-					<input type="password" value={password1} onChange={(e) => setPassword1(e.target.value)} required />
-				</div>
-				<div>
-					<label>パスワード（確認用）:</label>
-					<input type="password" value={password2} onChange={(e) => setPassword2(e.target.value)} required/>
-				</div>
-				<button type="submit">サインアップ</button>
-			</form>
-		</div>
+			</div>
+		</section>
 	);
-	
 };
 
 

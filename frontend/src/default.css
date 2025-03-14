@@ -1,0 +1,91 @@
+@tailwind components;
+
+@layer components{
+
+        /* ヘッダー全体のスタイル */
+        .header {
+            @apply
+                flex            /* フレックスボックスとして表示する */
+                flex-wrap       /* 必要に応じて要素を折り返す */
+                sm:justify-start /* 小画面以上で、コンテンツを先頭から配置 */
+                sm:flex-nowrap  /* 小画面以上で、要素を折り返さない */
+                w-full          /* 幅を親要素の100%にする */
+                bg-blue-600     /* 背景色を青600にする（ノーマルモード時） */
+                text-sm         /* テキストサイズを小さく(0.875rem = 14px)する */
+                py-3            /* 上下のパディングを0.75rem (12px)にする */
+                text-white      /* テキスト色を白にする（ノーマルモード時） */
+                dark:bg-neutral-800; /* ダークモード時は背景色をニュートラル800 (暗いグレー)にする */
+        }
+        /* ナビゲーション部分のスタイル */
+        .header-nav {
+            @apply
+                max-w-[85rem]   /* 最大幅を85remにする */
+                w-full          /* 幅を親要素の100%にする */
+                mx-auto         /* 左右のマージンを自動(中央揃え)にする */
+                px-4            /* 左右のパディングを1rem (16px)にする */
+                sm:flex         /* 小画面以上で、フレックスボックスとして表示 */
+                sm:items-center /* 小画面以上で、アイテムを垂直方向中央揃え */
+                sm:justify-between; /* 小画面以上で、アイテムを両端に配置 */
+        }
+
+    /* ロゴ/タイトル部分のスタイル */
+    .header-logo {
+        @apply
+            flex-none       /* フレックスアイテムのサイズを固定 (伸縮しない) */
+            font-semibold   /* フォントの太さをセミボールド(600)にする */
+            text-xl         /* テキストサイズを大きく(1.25rem = 20px)にする */
+            text-white      /* テキスト色を白にする（ノーマルモード時も） */
+            focus:outline-none /* フォーカス時のアウトラインを消す */
+            focus:opacity-80 /* フォーカス時の不透明度を80%にする */
+            dark:text-white; /* ダークモード時のテキスト色を白にする */
+    }
+
+    .header-link {
+        @apply
+            font-medium       /* フォントの太さをミディアム(500)にする */
+            text-white        /* 通常の文字色を白に */
+            hover:text-gray-200  /* ホバー時はグレー200に（少し暗めの白） */
+            focus:outline-none   /* フォーカス時のアウトラインを消す */
+            focus:text-gray-200  /* フォーカス時の文字色をグレー200に */
+            cursor-pointer       /* カーソルをポインター(手の形)にする */
+            dark:text-white      /* ダークモード時も文字色を白に */
+            dark:hover:text-gray-300  /* ダークモード時のホバー色をグレー300に */
+            dark:focus:text-gray-300; /* ダークモード時のフォーカス色をグレー300に */
+    }
+
+    .formGroup {
+        @apply
+            flex             /* フレックスボックスとして表示する */
+            flex-col;        /* 子要素を縦方向に並べる */
+    }
+
+    .formLabel {
+        @apply
+            mb-1;            /* 下マージンを0.25rem (4px)にする */
+    }
+
+    .formInput {
+        @apply
+            rounded-md       /* 角を中程度丸める(0.375rem = 6px) */
+            border           /* ボーダーを追加する */
+            px-3             /* 左右のパディングを0.75rem (12px)にする */
+            py-2;            /* 上下のパディングを0.5rem (8px)にする */
+    }
+
+    .blueLink {
+        @apply
+            text-blue-600    /* テキスト色を青500にする */
+            hover:underline; /* ホバー時に下線を表示する */
+    }
+    .submitButton {
+        @apply
+            w-full           /* 幅を親要素いっぱいにする */
+            rounded-md       /* 角を中程度丸める(0.375rem = 6px) */
+            bg-blue-500      /* 背景色を青500にする */
+            py-2             /* 上下のパディングを0.5rem (8px)にする */
+            text-white       /* テキスト色を白にする */
+            hover:bg-blue-600; /* ホバー時の背景色を青600にする */
+    }
+
+}
+

@@ -10,4 +10,5 @@ urlpatterns = [
         api_views.DeleteSelectedCardsAPIView.as_view(),
         name="delete_selected",
     ),
+    path("search/", api_views.SerchCardAPIView.as_view({"get": "list"}), name="search"),
 ]

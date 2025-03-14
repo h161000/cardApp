@@ -7,3 +7,4 @@ psycopg2-binary>=2.9.9
 djangorestframework-simplejwt>=5.3.0
 django-webpack-loader
 django-cors-headers
+debugpy==1.8.1

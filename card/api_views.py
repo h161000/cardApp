@@ -1,4 +1,4 @@
-from rest_framework import generics, status
+from rest_framework import filters, generics, status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -55,3 +55,12 @@ class DeleteSelectedCardsAPIView(APIView):
                 {"error": "指定されたカードは存在しません。"},
                 status=status.HTTP_404_NOT_FOUND,
             )
+
+
+# カード検索のAPIビュー
+class SerchCardAPIView(viewsets.ModelViewSet):
+    queryset = Card.objects.all()
+    serializer_class = CardSerializer
+    permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["title"]

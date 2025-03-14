@@ -1,0 +1,219 @@
+@tailwind components;
+
+@layer components {
+    .leftSide {
+        @apply
+            text-left       /* テキストを左揃えにする */
+            w-full          /* 幅を親要素の100%にする */
+            my-3;           /* 上下のマージンを0.75rem (12px)にする */
+    }
+
+    /* テーブル全体のコンテナ */
+    .table-container {
+        @apply
+            overflow-x-auto;    /* 横スクロールを可能にする */
+    }
+
+    /* テーブル要素 */
+    .card-table {
+        @apply
+            min-w-full           /* 最小幅を親要素の100%にする */
+            divide-y-2           /* 縦方向の区切り線を2pxにする */
+            divide-gray-200      /* 区切り線の色をグレー200にする */
+            bg-white             /* 背景色を白にする */
+            text-sm              /* テキストサイズを小さく(0.875rem = 14px)する */
+            border               /* 境界線を追加 */
+            border-gray-300      /* 境界線の色を中間のグレー300にする */
+            rounded-lg;          /* 角を丸める（大きめのボーダーラジウス） */
+    }
+
+    /* テーブルヘッダー */
+    .card-thead {
+        @apply
+            ltr:text-left        /* 左から右への言語では左揃え */
+            rtl:text-right;      /* 右から左への言語では右揃え */
+    }
+
+    /* テーブルヘッダーの行 */
+    .card-thead-row {
+        @apply
+            border               /* 境界線を追加 */
+            border-gray-300;     /* 境界線の色をグレー300に */
+    }
+
+    /* テーブルヘッダーのセル */
+    .card-th {
+        @apply
+            whitespace-nowrap    /* テキスト折り返しなし */
+            px-4                 /* 左右のパディングを1rem (16px)にする */
+            py-2                 /* 上下のパディングを0.5rem (8px)にする */
+            font-medium          /* フォントの太さをミディアム(500)にする */
+            text-gray-900;       /* テキスト色を濃いグレー900にする */
+    }
+
+    /* テーブル本体 */
+    .card-tbody {
+        @apply
+            divide-y            /* 行の間に区切り線を入れる */
+            divide-gray-200;    /* 区切り線の色をグレー200にする */
+    }
+
+    /* テーブル本体の奇数行 */
+    .card-tr {
+        @apply
+            odd:bg-gray-50;     /* 奇数行の背景色を薄いグレー50にする */
+    }
+
+    /* テーブル本体のセル */
+    .card-td {
+        @apply
+            whitespace-nowrap   /* テキスト折り返しなし */
+            px-4                /* 左右のパディングを1rem (16px)にする */
+            py-2                /* 上下のパディングを0.5rem (8px)にする */
+            font-medium         /* フォントの太さをミディアム(500)にする */
+            text-gray-900;      /* テキスト色を濃いグレー900にする */
+    }
+
+    /* header-container */
+    .header-container {
+        @apply
+            flex            /* display: flex; */
+            items-center    /* align-items: center; */
+            gap-5           /* gap: 1.25rem; */
+            mb-5;           /* margin-bottom: 1.25rem; */
+    }
+
+    /* create-button */
+    .create-button {
+        @apply
+            text-blue-500   /* color: #3b82f6; */
+            font-medium     /* font-weight: 500; */
+            hover:text-blue-700  /* hover時の color: #1d4ed8; */
+            hover:underline;     /* hover時の text-decoration: underline; */
+    }
+
+    /* search-container */
+    .search-container {
+        @apply
+            flex           /* display: flex; */
+            flex-grow      /* flex-grow: 1; */
+            max-w-md       /* max-width: 28rem; */
+            mx-auto;       /* margin-left: auto; margin-right: auto; */
+    }
+
+    /* search-input */
+    .search-input {
+        @apply
+            flex-grow      /* flex-grow: 1; */
+            px-3           /* padding-left: 0.75rem; padding-right: 0.75rem; */
+            py-2           /* padding-top: 0.5rem; padding-bottom: 0.5rem; */
+            border         /* border-width: 1px; */
+            border-gray-200  /* border-color: #e5e7eb; */
+            border-r-0     /* border-right-width: 0; */
+            rounded-l-md   /* border-top-left-radius: 0.375rem; border-bottom-left-radius: 0.375rem; */
+            focus:outline-none  /* focus時の outline: none; */
+            focus:border-blue-500  /* focus時の border-color: #3b82f6; */
+            focus:ring-1   /* focus時の box-shadow(ring): 0 0 0 1px; */
+            focus:ring-blue-500;  /* focus時の ring-color: #3b82f6; */
+    }
+
+    /* search-button */
+    .search-button {
+        @apply
+            px-4           /* padding-left: 1rem; padding-right: 1rem; */
+            py-2           /* padding-top: 0.5rem; padding-bottom: 0.5rem; */
+            bg-blue-600    /* background-color: #3b82f6; */
+            text-white     /* color: #ffffff; */
+            rounded-r-md   /* border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem; */
+            cursor-pointer /* cursor: pointer; */
+            hover:bg-blue-600;  /* hover時の background-color: #2563eb; */
+    }
+
+    /* search-label */
+    .search-label {
+        @apply
+            mb-2           /* margin-bottom: 0.5rem; */
+            text-sm        /* font-size: 0.875rem; line-height: 1.25rem; */
+            font-medium    /* font-weight: 500; */
+            text-gray-900  /* color: #111827; */
+            sr-only        /* position: absolute; width: 1px; height: 1px; ... */
+            dark:text-white; /* dark mode - color: #ffffff; */
+    }
+
+    /* search-container-relative */
+    .search-container-relative {
+        @apply
+            relative;      /* position: relative; */
+    }
+
+    /* search-icon-container */
+    .search-icon-container {
+        @apply
+            absolute       /* position: absolute; */
+            inset-y-0      /* top: 0; bottom: 0; */
+            start-0        /* left: 0; (in LTR) */
+            flex           /* display: flex; */
+            items-center   /* align-items: center; */
+            ps-3           /* padding-left: 0.75rem; */
+            pointer-events-none; /* pointer-events: none; */
+    }
+
+    /* search-icon */
+    .search-icon {
+        @apply
+            w-4            /* width: 1rem; */
+            h-4            /* height: 1rem; */
+            text-gray-500  /* color: #6b7280; */
+            dark:text-gray-400; /* dark mode - color: #9ca3af; */
+    }
+
+    /* search-input-new */
+    .search-input-new {
+        @apply
+            block          /* display: block; */
+            w-full         /* width: 100%; */
+            p-4            /* padding: 1rem; */
+            ps-10          /* padding-left: 2.5rem; */
+            text-sm        /* font-size: 0.875rem; line-height: 1.25rem; */
+            text-gray-900  /* color: #111827; */
+            border         /* border-width: 1px; */
+            border-gray-300 /* border-color: #d1d5db; */
+            rounded-lg     /* border-radius: 0.5rem; */
+            bg-gray-50     /* background-color: #f9fafb; */
+            focus:ring-blue-500   /* focus時の ring-color: #3b82f6; */
+            focus:border-blue-500 /* focus時の border-color: #3b82f6; */
+            dark:bg-gray-700      /* dark mode - background-color: #374151; */
+            dark:border-gray-600  /* dark mode - border-color: #4b5563; */
+            dark:placeholder-gray-400 /* dark mode - placeholder color: #9ca3af; */
+            dark:text-white       /* dark mode - color: #ffffff; */
+            dark:focus:ring-blue-500  /* dark mode focus時の ring-color: #3b82f6; */
+            dark:focus:border-blue-500; /* dark mode focus時の border-color: #3b82f6; */
+    }
+
+    /* search-button-new */
+    .search-button-new {
+        @apply
+            text-white     /* color: #ffffff; */
+            absolute       /* position: absolute; */
+            end-2.5        /* right: 0.625rem; (in LTR) */
+            bottom-2.5     /* bottom: 0.625rem; */
+            bg-blue-700    /* background-color: #1d4ed8; */
+            hover:bg-blue-800  /* hover時の background-color: #1e40af; */
+            focus:ring-4   /* focus時の box-shadow(ring): 0 0 0 4px; */
+            focus:outline-none /* focus時の outline: none; */
+            focus:ring-blue-300 /* focus時の ring-color: #93c5fd; */
+            font-medium    /* font-weight: 500; */
+            rounded-lg     /* border-radius: 0.5rem; */
+            text-sm        /* font-size: 0.875rem; line-height: 1.25rem; */
+            px-4           /* padding-left: 1rem; padding-right: 1rem; */
+            py-2           /* padding-top: 0.5rem; padding-bottom: 0.5rem; */
+            dark:bg-blue-600    /* dark mode - background-color: #2563eb; */
+            dark:hover:bg-blue-700 /* dark mode hover時の background-color: #1d4ed8; */
+            dark:focus:ring-blue-800; /* dark mode focus時の ring-color: #1e40af; */
+    }
+
+    .addSubmit{
+        @apply
+            px-4           /* padding-left: 1rem; padding-right: 1rem; */
+    }
+}

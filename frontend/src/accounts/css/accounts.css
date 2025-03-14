@@ -1,0 +1,51 @@
+@tailwind components;
+
+@layer components {
+
+    .accountsSection {
+        @apply
+            bg-gray-50       /* 背景色をグレー50にする */
+            dark:bg-gray-900; /* ダークモード時の背景色をグレー900にする */
+    }
+
+    .accountsContainer {
+        @apply
+            flex             /* フレックスボックスとして表示する */
+            h-screen         /* 高さを画面の高さいっぱいにする */
+            items-center     /* アイテムを垂直方向中央揃えにする */
+            justify-center;  /* アイテムを水平方向中央揃えにする */
+    }
+
+    .accountsCard {
+        @apply
+            w-full           /* 幅を親要素いっぱいにする */
+            max-w-md         /* 最大幅を中程度(28rem = 448px)にする */
+            rounded-lg       /* 角を大きく丸める(0.5rem = 8px) */
+            bg-white         /* 背景色を白にする */
+            p-6              /* パディングを1.5rem (24px)にする */
+            shadow-md;       /* 中程度の影をつける */
+    }
+
+    .accountsHeading {
+        @apply
+            mb-6             /* 下マージンを1.5rem (24px)にする */
+            text-center      /* テキストを中央揃えにする */
+            text-2xl         /* テキストサイズを大きく(1.5rem = 24px)にする */
+            font-bold;       /* フォントウェイト: 700 - 太字 */
+    }
+
+    .accountsForm {
+        @apply
+            space-y-4;       /* 子要素間の垂直方向の間隔を1rem (16px)にする */
+    }
+
+
+
+    .signupLink {
+        @apply
+            mt-4             /* 上マージンを1rem (16px)にする */
+            text-center;     /* テキストを中央揃えにする */
+    }
+
+
+}

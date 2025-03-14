@@ -14,7 +14,7 @@ const Login: React.FC = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const loginSubmit = async(e: React.FormEvent)=> {
+    const accountsSubmit = async(e: React.FormEvent)=> {
         e.preventDefault();
 
         try {
@@ -32,34 +32,40 @@ const Login: React.FC = () => {
         }
     };
     return (
-    <div>
-        <h2>ログイン</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <form onSubmit={loginSubmit}>
-        <div>
-            <label>ユーザー名:</label>
-            <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            />
-        </div>
-        <div>
-            <label>パスワード:</label>
-            <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            />
-        </div>
-        <button type="submit">ログイン</button>
-        </form>
-        <div>
-        <p>アカウントをお持ちでない方は<a href="/accounts/signup">サインアップ</a>してください。</p>
-        </div>
-    </div>
+        <section className="accountsSection">
+            <div className="accountsContainer">
+                <div className="accountsCard">
+                <h2 className="accountsHeading">CardApp</h2>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <form className="accountsForm" onSubmit={accountsSubmit}>
+                    <div className="formGroup">
+                    <label className="formLabel">ユーザー名</label>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        className="formInput"
+                    />
+                    </div>
+                    <div className="formGroup">
+                    <label className="formLabel">パスワード</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="formInput"
+                    />
+                    </div>
+                    <button type="submit" className="submitButton">ログイン</button>
+                </form>
+                <div className="signupLink">
+                    <a href="/accounts/signup" className="blueLink">サインアップ</a>
+                </div>
+                </div>
+            </div>
+        </section>
     );
 }
 export default Login;

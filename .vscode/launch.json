@@ -1,0 +1,53 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Django",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "runserver"
+            ],
+            "django": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Frontend: React",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/frontend"
+        },
+        {
+            "name": "Chrome: Django Debug (Docker)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:8000",
+            "webRoot": "${workspaceFolder}/frontend",
+            "pathMapping": {
+                "/static/js/": "${workspaceFolder}/frontend/build/static/js/",
+                "/static/css/": "${workspaceFolder}/frontend/build/static/css/",
+                "/static/": "${workspaceFolder}/frontend/build/static/",
+                "/app/frontend/": "${workspaceFolder}/frontend/"
+            }
+        },
+        {
+            "name": "Full Stack: Django & React",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "runserver"
+            ],
+            "django": true,
+            "justMyCode": true,
+            "serverReadyAction": {
+                "action": "debugWithChrome",
+                "pattern": "Starting development server at (https?://\\S+|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+:\\d+)",
+                "uriFormat": "%s",
+                "webRoot": "${workspaceFolder}/frontend"
+            }
+        }
+    ]
+} 
