@@ -42,36 +42,50 @@ apiClient.interceptors.request.use(config => {
 // レスポンスとエラーハンドリング
 // HTTPレスポンスが処理される前に、エラーハンドリングを追加
 apiClient.interceptors.response.use(
-    // " response => response" は成功したレスポンスを返す
-    // " async error => "はリクエストでエラーが発生した時に実行される非同期ハンドラー
-    response => response,async error => {
-        // エラーが発生したリクエスト情報
+    response => response,
+    async error => {
         const originalRequest = error.config;
-        // ステータスが401かつリトライフラグがfalseの場合("._retry"は無限ループ防ぐプロパティ)
+        
+        // レスポンスがない場合はネットワークエラーなどの可能性
+        if (!error.response) {
+            return Promise.reject(error);
+        }
+        
+        // 認証エラーでリトライしていない場合
         if (error.response.status === 401 && !originalRequest._retry) {
-            // 無限ループ阻止
             originalRequest._retry = true;
+            
             try {
-                // ローカルストレージからリフレッシュトークンを取得
                 const refreshToken = localStorage.getItem('refresh_token');
-                // await:非同期関数
-                // axios.post:POSTリクエスト送信
-                // `${API_URL}/token/refresh/`:リフレッシュトークンを送信するエンドポイント
-                // { refresh: refreshToken }:送信するリフレッシュトークン
-                const response = await apiClient.post('/api/token/refresh/', {
-                refresh: refreshToken
-                });
+                
+                // リフレッシュトークンがない場合はログイン画面へ
+                if (!refreshToken) {
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/accounts/login';
+                    return Promise.reject(error);
+                }
+                
+                const response = await axios.post(
+                    `${API_URL}/token/refresh/`, 
+                    { refresh: refreshToken },
+                    { baseURL: API_URL }
+                );
+                
                 const data = response.data as TokenResponse;
-                // レスポンスからアクセストークンを取得し、ローカルストレージに保存
                 localStorage.setItem('access_token', data.access);
-                return apiClient(originalRequest);
+                
+                // 新しいトークンで元のリクエストを再試行
+                originalRequest.headers.Authorization = `Bearer ${data.access}`;
+                return axios(originalRequest);
             } catch (refreshError) {
+                // リフレッシュに失敗したらログアウト
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('refresh_token');
                 window.location.href = '/accounts/login';
                 return Promise.reject(refreshError);
             }
         }
+        
         return Promise.reject(error);
     }
 );

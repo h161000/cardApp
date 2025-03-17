@@ -34,7 +34,8 @@ const CardList: React.FC = () => {
                 // CardListView(cardView)のgetメソッドにリクエストを送信
                 const response = await apiClient.get<cardList[]>('/card/');
                 
-                if (Array.isArray(response.data)) {
+                // 応答がデータプロパティを持ち、それが配列であることを確認
+                if (response && response.data && Array.isArray(response.data)) {
                     setCards(response.data);
                 } else {
                     console.error('API response is not an array:', response.data);
@@ -42,14 +43,23 @@ const CardList: React.FC = () => {
                     setError('データの形式が正しくありません。');
                 }
                 setLoading(false);
-            } catch (err) {
+            } catch (err: any) {
                 console.error('Error fetching cards:', err);
+                
+                // 認証エラーの場合は適切にハンドリング
+                if (err.response && err.response.status === 401) {
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
+                    navigate('/accounts/login');
+                    return;
+                }
+                
                 setError('カードの読み込みに失敗しました。');
                 setCards([]);
                 setLoading(false);
             }
         };
-        // fetchCards関数を実行
+        
         fetchCards();
     }, [navigate]);
 
@@ -125,73 +135,48 @@ const CardList: React.FC = () => {
 
     return (
         <div>
-            <header className="header">
-            <nav className="header-nav">
-                <a className="header-logo" aria-label="Card">Card</a>
-                <div className="header-menu">
-                    <a className="header-link" onClick={handleLogout} href="#" role="button">Logout</a>
+            {/* ...既存のヘッダー部分... */}
+            
+            {error && <div className="error-message">{error}</div>}
+            
+            {loading ? (
+                <div>読み込み中...</div>
+            ) : (
+                <div className="table-container">
+                    <table className="card-table">
+                        <thead className="card-thead">
+                            {/* ...既存のテーブルヘッダー... */}
+                        </thead>
+                        <tbody className="card-tbody">
+                            {/* ここが重要: 配列チェックを追加 */}
+                            {Array.isArray(cards) && cards.length > 0 ? (
+                                cards.map(card => (
+                                    <tr className="card-tr" key={card.id}>
+                                        <td className="card-td">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedCards.includes(card.id)}
+                                                onChange={() => handleCheckboxChange(card.id)}
+                                            />
+                                        </td>
+                                        <td className="card-td"><Link to={`/card/update/${card.id}/`}>{card.title}</Link></td>
+                                        <td className="card-td">{card.description}</td>
+                                        <td className="card-td">{new Date(card.created_at).toLocaleString()}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={4} style={{ textAlign: 'center' }}>
+                                        カードがありません
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
-            </nav>
-            </header>
-            <div className="header-container">
-                <button className="blueLink addSubmit" onClick={() => navigate('/card/create/')}>新規作成</button>
-                <form className="search-container" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
-                    <label htmlFor="card-search" className="search-label">Search</label>
-                    <div className="search-container-relative">
-                        <div className="search-icon-container">
-                            <svg className="search-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                        </div>
-                        <input
-                            type="search"
-                            id="card-search"
-                            className="search-input-new"
-                            placeholder="カードを検索..."
-                            value={searchKeyword}
-                            onChange={(e) => setSearchKeyword(e.target.value)}
-                        />
-                        <button
-                            type="submit"
-                            onClick={handleSearch}
-                            className="search-button-new"
-                        >
-                            検索
-                        </button>
-                    </div>
-            </form>
-            </div>
-            <div className="table-container">
-                <table className="card-table">
-                <thead className="card-thead">
-                    <tr className="card-thead-row">
-                        <th className="card-th">選択</th>
-                        <th className="card-th">タイトル</th>
-                        <th className="card-th">説明</th>
-                        <th className="card-th">作成日時</th>
-                    </tr>
-                </thead>
-                <tbody className="card-tbody">
-                    {Array.isArray(cards) && cards.map(card => (
-                        <tr className="card-tr" key={card.id}>
-                            <td className="card-td">
-                                <input
-                                    type="checkbox"
-                                    checked={selectedCards.includes(card.id)}
-                                    onChange={() => handleCheckboxChange(card.id)}
-                                />
-                            </td>
-                            <td className="card-td"><Link to={`/card/update/${card.id}/`}>{card.title}</Link></td>
-                            <td className="card-td">{card.description}</td>
-                            <td className="card-td">{new Date(card.created_at).toLocaleString()}</td>
-                        </tr>
-                    ))}
-                </tbody>
-                </table>
-            </div>
-            <div className='leftSide'>
-            <a onClick={handleDelete} style={{ display: selectedCards.length === 0 ? 'none' : 'block' }}className="addSubmit blueLink">削除</a>
-            </div>
+            )}
+            
+            {/* ...既存の削除ボタンなど... */}
         </div>
     );
 };
