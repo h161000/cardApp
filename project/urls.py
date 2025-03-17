@@ -16,19 +16,24 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import include, path
+from django.views.generic import TemplateView
 
 
-def redirect_to_login(request):
-    return redirect("accounts:login")
+def frontend(request):
+    return render(request, "index.html")
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("accounts/", include("accounts.urls")),
-    path("card/", include("card.urls")),
     path("api/", include("api.urls")),
     path("api/card/", include("card.api_urls")),  # カード関連API
-    path("", redirect_to_login, name="root"),
+    # すべての未マッチURLをフロントエンドにリダイレクト
+    path("", TemplateView.as_view(template_name="index.html"), name="frontend"),
+    path(
+        "<path:path>",
+        TemplateView.as_view(template_name="index.html"),
+        name="frontend-paths",
+    ),
 ]
