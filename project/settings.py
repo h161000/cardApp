@@ -172,6 +172,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://cardapp-1ruk.onrender.com",
     "http://localhost:8000",
     "http://localhost:3000",
+    "http://0.0.0.0:3000",  # Docker開発環境用に追加
+    "http://0.0.0.0:8000",  # Docker開発環境用に追加
 ]
 
 # 本番環境では whitenoise を使用
@@ -231,6 +233,8 @@ if DEBUG:
         "http://localhost:3000",
         "http://127.0.0.1:3000",
         "http://localhost:8000",
+        "http://0.0.0.0:3000",  # Docker開発環境用に追加
+        "http://0.0.0.0:8000",  # Docker開発環境用に追加
     ]
 else:
     CORS_ALLOWED_ORIGINS = [

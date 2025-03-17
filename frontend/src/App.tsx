@@ -17,11 +17,17 @@ import Login from './accounts/login';
 import './App.css';
 
 function App() {
+  // 環境変数からベースパスを取得
+  const basename = process.env.REACT_APP_BASENAME || '/';
+
   return (
     // ルーティングの設定
-    <Router>
+    <Router basename={basename}>
       <div className='App'>
         <Routes>
+          {/* ルートパスにログインコンポーネントを設定 */}
+          <Route path='/' element={<Login />} />
+
           {/* ルートを定義し "/signup"にアクセス時にSignupコンポーネントを表示する */}
           <Route path='/accounts/signup' element={<Signup />} />
           <Route path='/accounts/signup/' element={<Signup />} />

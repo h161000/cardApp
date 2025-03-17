@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // apiClientをインポート
 import apiClient from '../services/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface ResponseData {
     access: string;
@@ -61,7 +61,7 @@ const Login: React.FC = () => {
                     <button type="submit" className="submitButton">ログイン</button>
                 </form>
                 <div className="signupLink">
-                    <a href="/accounts/signup" className="blueLink">サインアップ</a>
+                    <Link to="/accounts/signup" className="blueLink">サインアップ</Link>
                 </div>
                 </div>
             </div>
