@@ -48,8 +48,8 @@ ENV NODE_ENV=production \
 
 # ビルド成果物を静的ファイルディレクトリにコピー
 RUN if [ -d "/app/frontend/build" ]; then \
-    mkdir -p /app/staticfiles && \
-    cp -r /app/frontend/build/* /app/staticfiles/ && \
+    mkdir -p /app/static && \
+    cp -r /app/frontend/build/* /app/static/ && \
     echo "フロントエンドビルド成果物をコピーしました"; \
 else \
     echo "ビルド成果物のディレクトリが存在しません"; \

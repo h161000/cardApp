@@ -67,10 +67,10 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
 "scripts": {
-    "start": "react-app-rewired start",
-    "build": "CI=false GENERATE_SOURCEMAP=false PUBLIC_URL=/static react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+  "start": "react-app-rewired start",
+  "build": "CI=false GENERATE_SOURCEMAP=false PUBLIC_URL=/ react-app-rewired build",
+  "test": "react-app-rewired test",
+  "eject": "react-scripts eject"
 },
   "eslintConfig": {
     "extends": [

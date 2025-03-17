@@ -178,12 +178,13 @@ CSRF_TRUSTED_ORIGINS = [
     "http://0.0.0.0:8000",  # Docker開発環境用に追加
 ]
 
-# 本番環境では whitenoise を使用
+# WhiteNoiseの設定を修正
 if not DEBUG:
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    # WhiteNoiseのMIMEタイプ設定を明示的に指定
     WHITENOISE_MIMETYPES = {
-    '.js': 'application/javascript',
-    '.css': 'text/css',
+        '.js': 'application/javascript',
+        '.css': 'text/css',
     }
 # Security settings
 if not DEBUG:
