@@ -156,9 +156,8 @@ if DEBUG:
 else:
     # 本番環境: ビルド済みReactアプリを使用
     STATICFILES_DIRS = [
-        # os.path.join(BASE_DIR, "static"),
         # フロントエンドのビルドディレクトリを追加
-        os.path.join(BASE_DIR, "frontend", "build", "static"),
+        os.path.join(BASE_DIR, "frontend", "build"),
     ]
 
 # Default primary key field type
@@ -178,7 +177,10 @@ CSRF_TRUSTED_ORIGINS = [
 # 本番環境では whitenoise を使用
 if not DEBUG:
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
+    WHITENOISE_MIMETYPES = {
+    '.js': 'application/javascript',
+    '.css': 'text/css',
+    }
 # Security settings
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
@@ -245,7 +247,7 @@ else:
 WEBPACK_LOADER = {
     "DEFAULT": {
         "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "static/" if DEBUG else "",  # 開発環境と本番環境でパスを調整
+        "BUNDLE_DIR_NAME": "" if DEBUG else "",  # 開発環境と本番環境でパスを調整
         "STATS_FILE": os.path.join(BASE_DIR, "frontend", "webpack-stats.json"),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,
