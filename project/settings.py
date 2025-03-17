@@ -250,11 +250,10 @@ CORS_ALLOWED_ORIGINS = [
     *[f"https://{host.strip()}" for host in ALLOWED_HOSTS if host.strip() != "*"],
 ]
 
-# webpack-loader設定のエラーを修正
 WEBPACK_LOADER = {
     "DEFAULT": {
-        "CACHE": not DEBUG,  # DEBUGがTrueの場合はキャッシュしない
-        "BUNDLE_DIR_NAME": "static/",  # 本番環境ではstatic/を追加
+        "CACHE": not DEBUG,
+        "BUNDLE_DIR_NAME": "static/",
         "STATS_FILE": os.path.join(BASE_DIR, "frontend", "webpack-stats.json"),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,
