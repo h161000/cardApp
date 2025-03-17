@@ -64,8 +64,7 @@
   },
   "chunks": {
     "main": [
-      "static/js/bundle.js",
-      "main.d3963e4317a358d20048.hot-update.js"
+      "static/js/bundle.js"
     ]
   },
   "publicPath": "http://localhost:3000/"

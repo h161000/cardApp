@@ -31,13 +31,13 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("api.urls")),
     path("api/card/", include("card.api_urls")),  # カード関連API
-    # すべての未マッチURLをフロントエンドにリダイレクト
-    path("", TemplateView.as_view(template_name="index.html"), name="frontend"),
-    path(
-        "<path:path>",
-        TemplateView.as_view(template_name="index.html"),
-        name="frontend-paths",
-    ),
+# すべての未マッチURLをフロントエンドにリダイレクト
+path("", TemplateView.as_view(template_name="index.html"), name="frontend"),
+path(
+    "<path:path>",
+    TemplateView.as_view(template_name="index.html"),
+    name="frontend-paths",
+),
 ]
 
 # 開発環境での静的ファイルの提供

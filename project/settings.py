@@ -159,6 +159,10 @@ else:
         # フロントエンドのビルドディレクトリを追加
         os.path.join(BASE_DIR, "frontend", "build"),
     ]
+    # 明示的にMIMEタイプのマッピングを追加
+    import mimetypes
+    mimetypes.add_type("application/javascript", ".js")
+    mimetypes.add_type("text/css", ".css")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -247,7 +251,7 @@ else:
 WEBPACK_LOADER = {
     "DEFAULT": {
         "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "" if DEBUG else "",  # 開発環境と本番環境でパスを調整
+        "BUNDLE_DIR_NAME": "" if DEBUG else "static/",  # 本番環境ではstatic/を追加
         "STATS_FILE": os.path.join(BASE_DIR, "frontend", "webpack-stats.json"),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,

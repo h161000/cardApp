@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = function override(config, env) {
   // 本番環境用のパスを設定
-  const publicPath = env === 'production' ? '/' : '/';
+  const publicPath = env === 'production' ? '/static/' : '/';
   // output設定の更新
   config.output = {
     ...config.output,
