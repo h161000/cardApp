@@ -6,7 +6,7 @@ interface TokenResponse {
 }
 
 //APIURL
-const API_URL = process.env.REACT_APP_API_URL || 'api';
+const API_URL = process.env.REACT_APP_API_URL || '/api';
 
 // APIクライアントの構成
 const apiClient = axios.create({
