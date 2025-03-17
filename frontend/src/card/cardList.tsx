@@ -96,7 +96,7 @@ const CardList: React.FC = () => {
     //カード検索
     const handleSearch = async () => {
         try {
-            const response = await apiClient.get<cardList[]>('/card/search/',{
+            const response = await apiClient.get<cardList[]>('/api/card/search/',{
                 params:{
                     search: searchKeyword
                 }
