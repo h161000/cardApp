@@ -100,17 +100,17 @@ DATABASES = (
             default="sqlite:///" + str(BASE_DIR / "db.sqlite3"), conn_max_age=600
         )
     }
-    if not DEBUG or os.getenv("DATABASE_URL")
-    else {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("POSTGRES_DB", "django_db"),
-            "USER": os.getenv("POSTGRES_USER", "django_user"),
-            "PASSWORD": os.getenv("POSTGRES_PASSWORD", "django_password"),
-            "HOST": os.getenv("POSTGRES_HOST", "db"),
-            "PORT": os.getenv("POSTGRES_PORT", "5432"),
-        }
-    }
+    # if not DEBUG or os.getenv("DATABASE_URL")
+    # else {
+    #     "default": {
+    #         "ENGINE": "django.db.backends.postgresql",
+    #         "NAME": os.getenv("POSTGRES_DB", "django_db"),
+    #         "USER": os.getenv("POSTGRES_USER", "django_user"),
+    #         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "django_password"),
+    #         "HOST": os.getenv("POSTGRES_HOST", "db"),
+    #         "PORT": os.getenv("POSTGRES_PORT", "5432"),
+    #     }
+    # }
 )
 
 
