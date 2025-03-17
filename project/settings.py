@@ -168,12 +168,12 @@ else:
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # CSRF settings
-# 本番
-# CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://*.railway.app').split(',')
-# local
-CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:8000").split(
-    ","
-)
+CSRF_TRUSTED_ORIGINS = [
+    "https://cardapp-1ruk.onrender.com",
+    "http://localhost:8000",
+    "http://localhost:3000",
+]
+
 # 本番環境では whitenoise を使用
 if not DEBUG:
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
@@ -224,20 +224,19 @@ SIMPLE_JWT = {
 CORS_ALLOW_ALL_ORIGINS = DEBUG  # 開発環境のみTrue
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
-# 本番環境では下記のように具体的なオリジンを指定する
-CORS_ALLOWED_ORIGINS = (
-    [
+
+# 開発環境と本番環境でのCORS設定
+if DEBUG:
+    CORS_ALLOWED_ORIGINS = [
         "http://localhost:3000",
         "http://127.0.0.1:3000",
         "http://localhost:8000",
-        "https://cardapp-1ruk.onrender.com",
     ]
-    if DEBUG
-    else [
+else:
+    CORS_ALLOWED_ORIGINS = [
         "https://cardapp-1ruk.onrender.com",
         *[f"https://{host.strip()}" for host in ALLOWED_HOSTS if host.strip() != "*"],
     ]
-)
 
 # webpack-loader設定も環境に応じて調整
 WEBPACK_LOADER = {
