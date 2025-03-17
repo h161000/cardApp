@@ -23,19 +23,35 @@ const CardList: React.FC = () => {
     useEffect(() => {
         const fetchCards = async () => {
             try {
+                // トークンが存在するか確認
+                const token = localStorage.getItem('access_token');
+                if (!token) {
+                    // トークンがない場合はログインページにリダイレクト
+                    navigate('/accounts/login');
+                    return;
+                }
+                
                 // CardListView(cardView)のgetメソッドにリクエストを送信
                 const response = await apiClient.get<cardList[]>('/card/');
-                setCards(response.data);
+                
+                if (Array.isArray(response.data)) {
+                    setCards(response.data);
+                } else {
+                    console.error('API response is not an array:', response.data);
+                    setCards([]);
+                    setError('データの形式が正しくありません。');
+                }
                 setLoading(false);
             } catch (err) {
+                console.error('Error fetching cards:', err);
                 setError('カードの読み込みに失敗しました。');
+                setCards([]);
                 setLoading(false);
             }
         };
         // fetchCards関数を実行
         fetchCards();
-    // 空の配列を渡すことで、初めて表示される時だけ実行される
-    }, []);
+    }, [navigate]);
 
     // チェックボックスの状態を更新する
     const handleCheckboxChange = (cardId: number) => {
@@ -156,7 +172,7 @@ const CardList: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody className="card-tbody">
-                    {cards.map(card => (
+                    {Array.isArray(cards) && cards.map(card => (
                         <tr className="card-tr" key={card.id}>
                             <td className="card-td">
                                 <input
