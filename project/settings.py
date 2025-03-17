@@ -232,7 +232,7 @@ SIMPLE_JWT = {
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = DEBUG  # 開発環境のみTrue
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = False
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 
 # 開発環境
@@ -261,9 +261,9 @@ WEBPACK_LOADER = {
     }
 }
 # 本番環境でのセキュリティ設定を調整
-# デバッグモードがオンの場合、いくつかのセキュリティ設定を一時的に無効化
-if DEBUG:
-    # デバッグモード時はSSLリダイレクトを無効化
-    SECURE_SSL_REDIRECT = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
+# # デバッグモードがオンの場合、いくつかのセキュリティ設定を一時的に無効化
+# if DEBUG:
+#     # デバッグモード時はSSLリダイレクトを無効化
+#     SECURE_SSL_REDIRECT = False
+#     SESSION_COOKIE_SECURE = False
+#     CSRF_COOKIE_SECURE = False
