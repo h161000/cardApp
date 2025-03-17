@@ -145,19 +145,23 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 STATIC_URL = "/static/"
 
-# Static files root directory
-# STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-# Additional locations of static files
-STATICFILES_DIRS = [
-    # BASE_DIR / 'static',
-    os.path.join(BASE_DIR, "frontend/build/static"),
-]
+# 本番環境と開発環境で異なる設定を使用
+if DEBUG:
+    # 開発環境: webpack-dev-serverからの提供
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+    ]
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+else:
+    # 本番環境: ビルド済みReactアプリを使用
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+        # フロントエンドのビルドディレクトリを追加（必要な場合）
+        os.path.join(BASE_DIR, "frontend/build"),
+    ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -171,8 +175,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:8000").split(
     ","
 )
-# Static files storage
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# 本番環境では whitenoise を使用
+if not DEBUG:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Security settings
 if not DEBUG:
@@ -227,10 +232,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
 ]
 
+# webpack-loader設定も環境に応じて調整
 WEBPACK_LOADER = {
     "DEFAULT": {
         "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "frontend/build/",
+        "BUNDLE_DIR_NAME": "frontend/build/" if not DEBUG else "",
         "STATS_FILE": os.path.join(BASE_DIR, "frontend/webpack-stats.json"),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,

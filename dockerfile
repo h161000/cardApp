@@ -25,47 +25,37 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# プロジェクトファイルをコピー（先にコピーしてからfrontendを処理）
+# プロジェクトファイルをコピー
 COPY . .
 
-# 静的ファイル用ディレクトリ
+# 静的ファイル用ディレクトリを作成
 RUN mkdir -p /app/staticfiles && chmod 755 /app/staticfiles
-RUN mkdir -p /app/data && chmod 777 /app/data
+RUN mkdir -p /app/static && chmod 755 /app/static
 
-# フロントエンドディレクトリがない場合は作成
-RUN if [ ! -d "/app/frontend" ]; then mkdir -p /app/frontend; fi
-
-# Reactアプリの初期化（frontendが空の場合）
-RUN cd /app/frontend && \
-    if [ ! -f "package.json" ]; then \
-    npx create-react-app . --template typescript && \
-    echo 'REACT_APP_API_URL=/api' > .env && \
-    echo 'REACT_APP_BASENAME=/' >> .env; \
-    fi
-
-# Reactの依存関係をインストール
+# フロントエンドのビルド処理
 WORKDIR /app/frontend
 RUN npm install
-RUN npm run build || echo "ビルド失敗。開発中は無視してください。"
+
+# 本番環境用にReactアプリをビルド
+RUN npm run build
 
 # メインディレクトリに戻る
 WORKDIR /app
 
-# エントリポイントスクリプトをコピー
-COPY docker-entrypoint.sh /usr/local/bin/
+# 本番環境用の環境変数を設定
+ENV NODE_ENV=production \
+    DEBUG=False
 
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-# フロントエンドのビルド成果物をDjangoの静的ファイルディレクトリにコピー
+# ビルド成果物を静的ファイルディレクトリにコピー（改善版）
 RUN if [ -d "/app/frontend/build" ]; then \
-    cp -r /app/frontend/build/* /app/staticfiles/ || echo "ビルド成果物がありません"; \
+    cp -r /app/frontend/build/* /app/staticfiles/ && \
+    echo "フロントエンドビルド成果物をコピーしました"; \
+    else \
+    echo "ビルド成果物のディレクトリが存在しません"; \
     fi
 
 # 静的ファイル収集
-RUN python manage.py collectstatic --noinput || echo "静的ファイル収集に失敗しました"
+RUN python manage.py collectstatic --noinput
 
-# データベースマイグレーション（開発環境では実行時に行う）
+# マイグレーションとサーバー起動
 CMD python manage.py migrate && gunicorn project.wsgi:application --bind 0.0.0.0:$PORT --workers 4 --threads 2
-
-# エントリポイント設定
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
