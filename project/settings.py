@@ -158,9 +158,8 @@ else:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static"),
         # フロントエンドのビルドディレクトリを追加
-        os.path.join(BASE_DIR, "frontend/build"),
+        os.path.join(BASE_DIR, "frontend", "build"),
     ]
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -242,12 +241,12 @@ else:
         *[f"https://{host.strip()}" for host in ALLOWED_HOSTS if host.strip() != "*"],
     ]
 
-# webpack-loader設定も環境に応じて調整
+# webpack-loader設定
 WEBPACK_LOADER = {
     "DEFAULT": {
         "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "static/" if not DEBUG else "",
-        "STATS_FILE": os.path.join(BASE_DIR, "frontend/webpack-stats.json"),
+        "BUNDLE_DIR_NAME": "static/" if DEBUG else "",  # 開発環境と本番環境でパスを調整
+        "STATS_FILE": os.path.join(BASE_DIR, "frontend", "webpack-stats.json"),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,
         "IGNORE": [r".+\.hot-update.js", r".+\.map"],
