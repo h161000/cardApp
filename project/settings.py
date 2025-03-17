@@ -31,13 +31,8 @@ SECRET_KEY = os.getenv(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# 本番
-# DEBUG = os.getenv('DEBUG', 'False') == 'True'
-# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
-
-# local
-DEBUG = True
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "*"]
+DEBUG = os.getenv("DEBUG", "False") == "True"
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 # Application definition
 
@@ -97,20 +92,24 @@ WSGI_APPLICATION = "project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    # 'default': dj_database_url.config(
-    #     default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
-    #     conn_max_age=600
-    # )
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB", "django_db"),
-        "USER": os.getenv("POSTGRES_USER", "django_user"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "django_password"),
-        "HOST": os.getenv("POSTGRES_HOST", "db"),
-        "PORT": os.getenv("POSTGRES_PORT", "5432"),
+DATABASES = (
+    {
+        "default": dj_database_url.config(
+            default="sqlite:///" + str(BASE_DIR / "db.sqlite3"), conn_max_age=600
+        )
     }
-}
+    if not DEBUG or os.getenv("DATABASE_URL")
+    else {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("POSTGRES_DB", "django_db"),
+            "USER": os.getenv("POSTGRES_USER", "django_user"),
+            "PASSWORD": os.getenv("POSTGRES_PASSWORD", "django_password"),
+            "HOST": os.getenv("POSTGRES_HOST", "db"),
+            "PORT": os.getenv("POSTGRES_PORT", "5432"),
+        }
+    }
+)
 
 
 # Password validation
@@ -146,6 +145,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # 本番環境と開発環境で異なる設定を使用
 if DEBUG:
@@ -153,15 +153,14 @@ if DEBUG:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static"),
     ]
-    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 else:
     # 本番環境: ビルド済みReactアプリを使用
-    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static"),
-        # フロントエンドのビルドディレクトリを追加（必要な場合）
+        # フロントエンドのビルドディレクトリを追加
         os.path.join(BASE_DIR, "frontend/build"),
     ]
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
