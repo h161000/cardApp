@@ -43,7 +43,7 @@ const Signup: React.FC = () => {
 			}
 			// ログインページへリダイレクト
 			setTimeout(() => {
-				window.location.href = '/accountss/login';
+				window.location.href = '/accounts/login';
 			}, 2000);
 			// サインアップ成功後の処理
 		} catch (error:any) {

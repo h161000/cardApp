@@ -11,6 +11,21 @@
       "path": "/app/build/index.html",
       "publicPath": "http://localhost:3000/index.html"
     },
+    "main.3343162d081022da3927.hot-update.js": {
+      "name": "main.3343162d081022da3927.hot-update.js",
+      "path": "/app/build/main.3343162d081022da3927.hot-update.js",
+      "publicPath": "http://localhost:3000/main.3343162d081022da3927.hot-update.js"
+    },
+    "main.3343162d081022da3927.hot-update.js.map": {
+      "name": "main.3343162d081022da3927.hot-update.js.map",
+      "path": "/app/build/main.3343162d081022da3927.hot-update.js.map",
+      "publicPath": "http://localhost:3000/main.3343162d081022da3927.hot-update.js.map"
+    },
+    "main.3343162d081022da3927.hot-update.json": {
+      "name": "main.3343162d081022da3927.hot-update.json",
+      "path": "/app/build/main.3343162d081022da3927.hot-update.json",
+      "publicPath": "http://localhost:3000/main.3343162d081022da3927.hot-update.json"
+    },
     "static/js/bundle.js": {
       "name": "static/js/bundle.js",
       "path": "/app/build/static/js/bundle.js",
@@ -34,7 +49,8 @@
   },
   "chunks": {
     "main": [
-      "static/js/bundle.js"
+      "static/js/bundle.js",
+      "main.3343162d081022da3927.hot-update.js"
     ]
   },
   "publicPath": "http://localhost:3000/"
