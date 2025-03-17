@@ -235,7 +235,7 @@ CORS_ALLOWED_ORIGINS = [
 WEBPACK_LOADER = {
     "DEFAULT": {
         "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "frontend/build/" if not DEBUG else "",
+        "BUNDLE_DIR_NAME": "static/" if not DEBUG else "",
         "STATS_FILE": os.path.join(BASE_DIR, "frontend/webpack-stats.json"),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,
