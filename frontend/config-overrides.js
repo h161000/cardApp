@@ -1,3 +1,4 @@
+const BundleTracker = require('webpack-bundle-tracker');
 const path = require('path');
 
 module.exports = function override(config, env) {
@@ -12,6 +13,17 @@ module.exports = function override(config, env) {
     filename: env === 'production' ? 'static/js/[name].[contenthash:8].js' : 'static/js/bundle.js',
     chunkFilename: env === 'production' ? 'static/js/[name].[contenthash:8].chunk.js' : 'static/js/[name].chunk.js'
   };
+
+  // Add BundleTracker plugin
+  config.plugins.push(
+    new BundleTracker({
+      path: __dirname,
+      filename: 'webpack-stats.json',
+      publicPath: process.env.NODE_ENV === 'production' 
+        ? '/static/'  // 本番環境用のパス
+        : 'http://localhost:3000/'  // 開発環境用のパス
+    })
+  );
 
   return config;
 };

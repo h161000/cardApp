@@ -221,15 +221,19 @@ SIMPLE_JWT = {
 }
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True  # 開発環境用の設定
+CORS_ALLOW_ALL_ORIGINS = DEBUG  # 開発環境のみTrue
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 # 本番環境では下記のように具体的なオリジンを指定する
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:8000",
-]
+CORS_ALLOWED_ORIGINS = (
+    [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:8000",
+    ]
+    if DEBUG
+    else [f"https://{host.strip()}" for host in ALLOWED_HOSTS if host.strip() != "*"]
+)
 
 # webpack-loader設定も環境に応じて調整
 WEBPACK_LOADER = {
