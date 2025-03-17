@@ -9,8 +9,8 @@ module.exports = function override(config, env) {
     ...config.output,
     publicPath: publicPath,
     // 本番環境ではファイル名にハッシュを含める
-    filename: env === 'production' ? 'static/js/[name].[contenthash:8].js' : 'static/js/bundle.js',
-    chunkFilename: env === 'production' ? 'static/js/[name].[contenthash:8].chunk.js' : 'static/js/[name].chunk.js'
+    filename: env === 'production' ? 'js/[name].[contenthash:8].js' : 'static/js/bundle.js',
+    chunkFilename: env === 'production' ? 'js/[name].[contenthash:8].chunk.js' : 'static/js/[name].chunk.js'
   };
 
   // Add BundleTracker plugin
