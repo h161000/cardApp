@@ -31,7 +31,9 @@ SECRET_KEY = os.getenv(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+# DEBUG = os.getenv("DEBUG", "False") == "True"
+# 一時的に本番環境でもデバッグを有効化
+DEBUG = True
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 # Application definition
@@ -148,21 +150,21 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # 本番環境と開発環境で異なる設定を使用
-if DEBUG:
-    # 開発環境: webpack-dev-serverからの提供
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, "static"),
-    ]
-else:
-    # 本番環境: ビルド済みReactアプリを使用
-    STATICFILES_DIRS = [
-        # フロントエンドのビルドディレクトリを追加
-        os.path.join(BASE_DIR, "frontend", "build"),
-    ]
-    # 明示的にMIMEタイプのマッピングを追加
-    import mimetypes
-    mimetypes.add_type("application/javascript", ".js")
-    mimetypes.add_type("text/css", ".css")
+
+# # 開発環境: webpack-dev-serverからの提供
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+# ]
+
+# 本番環境: ビルド済みReactアプリを使用
+STATICFILES_DIRS = [
+    # フロントエンドのビルドディレクトリを追加
+    os.path.join(BASE_DIR, "frontend", "build"),
+]
+# 明示的にMIMEタイプのマッピングを追加
+import mimetypes
+mimetypes.add_type("application/javascript", ".js")
+mimetypes.add_type("text/css", ".css")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -179,23 +181,23 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # WhiteNoiseの設定を修正
-if not DEBUG:
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-    # WhiteNoiseのMIMEタイプ設定を明示的に指定
-    WHITENOISE_MIMETYPES = {
-        '.js': 'application/javascript',
-        '.css': 'text/css',
-    }
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# WhiteNoiseのMIMEタイプ設定を明示的に指定
+WHITENOISE_MIMETYPES = {
+    '.js': 'application/javascript',
+    '.css': 'text/css',
+}
 # Security settings
-if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 # Authentication settings
 LOGIN_URL = "login"
@@ -233,29 +235,36 @@ CORS_ALLOW_ALL_ORIGINS = DEBUG  # 開発環境のみTrue
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 
-# 開発環境と本番環境でのCORS設定
-if DEBUG:
-    CORS_ALLOWED_ORIGINS = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:8000",
-        "http://0.0.0.0:3000",  # Docker開発環境用に追加
-        "http://0.0.0.0:8000",  # Docker開発環境用に追加
-    ]
-else:
-    CORS_ALLOWED_ORIGINS = [
-        "https://cardapp-1ruk.onrender.com",
-        *[f"https://{host.strip()}" for host in ALLOWED_HOSTS if host.strip() != "*"],
-    ]
+# 開発環境
 
-# webpack-loader設定
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://127.0.0.1:3000",
+#     "http://localhost:8000",
+#     "http://0.0.0.0:3000",  # Docker開発環境用に追加
+#     "http://0.0.0.0:8000",  # Docker開発環境用に追加
+# ]
+# 本番環境でのCORS設定
+CORS_ALLOWED_ORIGINS = [
+    "https://cardapp-1ruk.onrender.com",
+    *[f"https://{host.strip()}" for host in ALLOWED_HOSTS if host.strip() != "*"],
+]
+
+# webpack-loader設定のエラーを修正
 WEBPACK_LOADER = {
     "DEFAULT": {
-        "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "" if DEBUG else "static/",  # 本番環境ではstatic/を追加
+        "CACHE": not DEBUG,  # DEBUGがTrueの場合はキャッシュしない
+        "BUNDLE_DIR_NAME": "static/",  # 本番環境ではstatic/を追加
         "STATS_FILE": os.path.join(BASE_DIR, "frontend", "webpack-stats.json"),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,
         "IGNORE": [r".+\.hot-update.js", r".+\.map"],
     }
 }
+# 本番環境でのセキュリティ設定を調整
+# デバッグモードがオンの場合、いくつかのセキュリティ設定を一時的に無効化
+if DEBUG:
+    # デバッグモード時はSSLリダイレクトを無効化
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False

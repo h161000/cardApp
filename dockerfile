@@ -44,7 +44,7 @@ WORKDIR /app
 
 # 本番環境用の環境変数を設定
 ENV NODE_ENV=production \
-    DEBUG=False
+    DEBUG=True
 
 # ビルド成果物を静的ファイルディレクトリにコピー
 RUN if [ -d "/app/frontend/build" ]; then \
