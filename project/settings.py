@@ -156,7 +156,7 @@ if DEBUG:
 else:
     # 本番環境: ビルド済みReactアプリを使用
     STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, "static"),
+        # os.path.join(BASE_DIR, "static"),
         # フロントエンドのビルドディレクトリを追加
         os.path.join(BASE_DIR, "frontend", "build", "static"),
     ]

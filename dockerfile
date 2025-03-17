@@ -47,13 +47,20 @@ ENV NODE_ENV=production \
     DEBUG=False
 
 # ビルド成果物を静的ファイルディレクトリにコピー（改善版）
-RUN if [ -d "/app/frontend/build" ]; then \
-    cp -r /app/frontend/build/* /app/staticfiles/ && \
-    echo "フロントエンドビルド成果物をコピーしました"; \
-    else \
-    echo "ビルド成果物のディレクトリが存在しません"; \
-    fi
+# RUN if [ -d "/app/frontend/build" ]; then \
+#     cp -r /app/frontend/build/* /app/staticfiles/ && \
+#     echo "フロントエンドビルド成果物をコピーしました"; \
+#     else \
+#     echo "ビルド成果物のディレクトリが存在しません"; \
+#     fi
 
+RUN if [ -d "/app/frontend/build" ]; then \
+mkdir -p /app/staticfiles && \
+cp -r /app/frontend/build/* /app/staticfiles/ && \
+echo "フロントエンドビルド成果物をコピーしました"; \
+else \
+echo "ビルド成果物のディレクトリが存在しません"; \
+fi
 # 静的ファイル収集
 RUN python manage.py collectstatic --noinput
 
