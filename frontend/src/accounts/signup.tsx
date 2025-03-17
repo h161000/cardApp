@@ -30,7 +30,7 @@ const Signup: React.FC = () => {
 		try {
 			//"class RegisterView(APIView)"のpostメソッドにリクエストを送信し、例外をキャッチ
 			//axios.postメソッドは、POSTリクエストを送信するためのメソッド
-			const response = await apiClient.post<ResponseData>('/register/', {
+			const response = await apiClient.post<ResponseData>('/api/register/', {
 				username,
 				email,
 				password1,
