@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card App</title>
-    {% load static %}
-    {% load render_bundle from webpack_loader %}
-</head>
-<body>
-    <div id="root"></div>
-    {% render_bundle 'main' %}
-</body>
-</html> 
+{% extends 'base.html' %}
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
+{% block title %}ログイン{% endblock %}
+
+{% block content %}
+<div id="root"></div>
+{% endblock %}
+
+
+{% block js %}
+{% comment %} webpack_loaderを使用してReactのバンドルを読み込む {% endcomment %}
+{% render_bundle 'main' %}
+{% endblock %}
