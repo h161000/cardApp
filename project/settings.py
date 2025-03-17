@@ -230,9 +230,13 @@ CORS_ALLOWED_ORIGINS = (
         "http://localhost:3000",
         "http://127.0.0.1:3000",
         "http://localhost:8000",
+        "https://cardapp-1ruk.onrender.com",
     ]
     if DEBUG
-    else [f"https://{host.strip()}" for host in ALLOWED_HOSTS if host.strip() != "*"]
+    else [
+        "https://cardapp-1ruk.onrender.com",
+        *[f"https://{host.strip()}" for host in ALLOWED_HOSTS if host.strip() != "*"],
+    ]
 )
 
 # webpack-loader設定も環境に応じて調整
