@@ -18,7 +18,7 @@ const Login: React.FC = () => {
         e.preventDefault();
 
         try {
-            const responce = await apiClient.post<ResponseData>('/api/token/',{
+            const responce = await apiClient.post<ResponseData>('/token/',{
                 username,
                 password
             });
