@@ -188,6 +188,9 @@ WHITENOISE_MIMETYPES = {
     '.js': 'application/javascript',
     '.css': 'text/css',
 }
+import mimetypes
+mimetypes.add_type("application/javascript", ".js", True)
+mimetypes.add_type("text/css", ".css", True)
 # Security settings
 
 SECURE_SSL_REDIRECT = True
