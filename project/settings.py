@@ -64,7 +64,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -199,12 +199,13 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+# CSRF設定を無効化または緩和（APIエンドポイント用）
 if "cardapp-1ruk.onrender.com" in ALLOWED_HOSTS:
-    CSRF_COOKIE_SAMESITE = 'Lax'  # Cookie SameSite設定を緩める
-    CSRF_COOKIE_SECURE = True     # HTTPSのみ
-    CSRF_COOKIE_HTTPONLY = False  # JavaScriptからアクセス可能に
-    CSRF_USE_SESSIONS = False     # セッションではなくCookieを使用
-    CSRF_COOKIE_NAME = 'csrftoken'
+    CSRF_COOKIE_SAMESITE = None
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
+    CSRF_USE_SESSIONS = False
+    SESSION_COOKIE_SAMESITE = None
 
 # Authentication settings
 LOGIN_URL = "login"
@@ -215,8 +216,8 @@ LOGOUT_REDIRECT_URL = "/"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.BasicAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework.authentication.BasicAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
@@ -229,12 +230,13 @@ from datetime import timedelta
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": False,
+    "ROTATE_REFRESH_TOKENS": True,  # リフレッシュトークンのローテーションを有効化
     "BLACKLIST_AFTER_ROTATION": True,
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
+    "UPDATE_LAST_LOGIN": True,  # ログイン時に最終ログイン時間を更新
 }
 
 # CORS settings

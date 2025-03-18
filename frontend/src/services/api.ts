@@ -22,8 +22,8 @@ apiClient.interceptors.request.use(config => {
     const token = localStorage.getItem('access_token');
     
     // CSRFトークンを取得 - サーバーサイドレンダリングの場合を考慮
-    const csrfToken = Cookies.get('csrftoken') || 
-                      document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    // const csrfToken = Cookies.get('csrftoken') || 
+    //                   document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
     
     if (!config.headers) {
         config.headers = {};
@@ -33,9 +33,9 @@ apiClient.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${token}`;
     }
     
-    if (csrfToken) {
-        config.headers['X-CSRFToken'] = csrfToken;
-    }
+    // if (csrfToken) {
+    //     config.headers['X-CSRFToken'] = csrfToken;
+    // }
     
     return config;
 });

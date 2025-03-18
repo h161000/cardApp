@@ -50,24 +50,29 @@ class UserDetailView(generics.RetrieveAPIView):
         return self.request.user
 
 
-# ログアウト処理
+# トークン処理部分のエラーハンドリングを強化
 class LogoutView(generics.GenericAPIView):
-    # 認証済みユーザのみアクセス可能
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         try:
-            # POSTの帰ってきた値のrefresh_token
             refresh_token = request.data.get("refresh")
-            # トークンオブジェクトを生成
+            if not refresh_token:
+                return Response(
+                    {"message": "リフレッシュトークンが提供されていません"}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+                
             token = RefreshToken(refresh_token)
-            # トークンを無効化
             token.blacklist()
-            return Response(
-                {"message": "ログアウトしました"}, status=status.HTTP_200_OK
-            )
+            return Response({"message": "ログアウトしました"}, status=status.HTTP_200_OK)
         except TokenError as e:
             return Response(
                 {"message": "無効なトークンです", "error_details": str(e)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return Response(
+                {"message": "予期せぬエラーが発生しました", "error_details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
