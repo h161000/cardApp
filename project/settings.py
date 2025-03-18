@@ -194,13 +194,17 @@ mimetypes.add_type("text/css", ".css", True)
 # Security settings
 
 SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+if "cardapp-1ruk.onrender.com" in ALLOWED_HOSTS:
+    CSRF_COOKIE_SAMESITE = 'Lax'  # Cookie SameSite設定を緩める
+    CSRF_COOKIE_SECURE = True     # HTTPSのみ
+    CSRF_COOKIE_HTTPONLY = False  # JavaScriptからアクセス可能に
+    CSRF_USE_SESSIONS = False     # セッションではなくCookieを使用
+    CSRF_COOKIE_NAME = 'csrftoken'
 
 # Authentication settings
 LOGIN_URL = "login"

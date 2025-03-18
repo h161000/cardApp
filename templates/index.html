@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card App</title>
-    {% load static %}
-    {% load render_bundle from webpack_loader %}
-</head>
-<body>
-    <div id="root"></div>
-    {% block js %}
-        {% render_bundle 'main' %}
-    {% endblock %}
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Card App</title>
+        {% csrf_token %}
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        {% load static %}
+        {% load render_bundle from webpack_loader %}
+    </head>
+    <body>
+        <div id="root"></div>
+        {% block js %}
+            {% render_bundle 'main' %}
+        {% endblock %}
+    </body>
 </html>

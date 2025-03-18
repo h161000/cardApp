@@ -19,23 +19,24 @@ const apiClient = axios.create({
 
 // リクエスト時にトークンを追加する
 apiClient.interceptors.request.use(config => {
-    //ローカルストレージからアクセストークンを取得
     const token = localStorage.getItem('access_token');
-    // Django の CSRF トークンを取得
-    const csrfToken = Cookies.get('csrftoken');
-
-    // ヘッダーが存在しない場合は初期化
+    
+    // CSRFトークンを取得 - サーバーサイドレンダリングの場合を考慮
+    const csrfToken = Cookies.get('csrftoken') || 
+                      document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    
     if (!config.headers) {
         config.headers = {};
     }
-
+    
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
+    
     if (csrfToken) {
         config.headers['X-CSRFToken'] = csrfToken;
     }
-
+    
     return config;
 });
 
