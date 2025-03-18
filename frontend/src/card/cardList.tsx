@@ -135,7 +135,42 @@ const CardList: React.FC = () => {
 
     return (
         <div>
-            {/* ...既存のヘッダー部分... */}
+            <header className="header">
+            <nav className="header-nav">
+                <a className="header-logo" aria-label="Card">Card</a>
+                <div className="header-menu">
+                    <a className="header-link" onClick={handleLogout} href="#" role="button">Logout</a>
+                </div>
+            </nav>
+            </header>
+            <div className="header-container">
+                <button className="blueLink addSubmit" onClick={() => navigate('/card/create/')}>新規作成</button>
+                <form className="search-container" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+                    <label htmlFor="card-search" className="search-label">Search</label>
+                    <div className="search-container-relative">
+                        <div className="search-icon-container">
+                            <svg className="search-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input
+                            type="search"
+                            id="card-search"
+                            className="search-input-new"
+                            placeholder="カードを検索..."
+                            value={searchKeyword}
+                            onChange={(e) => setSearchKeyword(e.target.value)}
+                        />
+                        <button
+                            type="submit"
+                            onClick={handleSearch}
+                            className="search-button-new"
+                        >
+                            検索
+                        </button>
+                    </div>
+                </form>
+            </div>
             
             {error && <div className="error-message">{error}</div>}
             
@@ -145,10 +180,15 @@ const CardList: React.FC = () => {
                 <div className="table-container">
                     <table className="card-table">
                         <thead className="card-thead">
-                            {/* ...既存のテーブルヘッダー... */}
+                            <tr className="card-thead-row">
+                                <th className="card-th">選択</th>
+                                <th className="card-th">タイトル</th>
+                                <th className="card-th">説明</th>
+                                <th className="card-th">作成日時</th>
+                            </tr>
                         </thead>
                         <tbody className="card-tbody">
-                            {/* ここが重要: 配列チェックを追加 */}
+                            {/* 配列チェックを維持 */}
                             {Array.isArray(cards) && cards.length > 0 ? (
                                 cards.map(card => (
                                     <tr className="card-tr" key={card.id}>
@@ -176,7 +216,15 @@ const CardList: React.FC = () => {
                 </div>
             )}
             
-            {/* ...既存の削除ボタンなど... */}
+            <div className='leftSide'>
+                <a 
+                    onClick={handleDelete} 
+                    style={{ display: selectedCards.length === 0 ? 'none' : 'block' }}
+                    className="addSubmit blueLink"
+                >
+                    削除
+                </a>
+            </div>
         </div>
     );
 };
