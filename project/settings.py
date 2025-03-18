@@ -252,7 +252,14 @@ CORS_ALLOWED_ORIGINS = [
     "https://cardapp-1ruk.onrender.com",
     *[f"https://{host.strip()}" for host in ALLOWED_HOSTS if host.strip() != "*"],
 ]
-
+# 本番
+CORS_ALLOW_HEADERS = [
+    'x-csrftoken',
+    'authorization',
+    'content-type',
+    'access-control-allow-origin',
+    'origin',
+]
 WEBPACK_LOADER = {
     "DEFAULT": {
         "CACHE": not DEBUG,
