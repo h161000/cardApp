@@ -24,7 +24,7 @@ const CardCreate: React.FC = () =>{
         }
 
         try{
-            const response = await apiClient.post<card>('/api/card/',{
+            const response = await apiClient.post<card>('/card/',{
                 title,
                 description,
             });

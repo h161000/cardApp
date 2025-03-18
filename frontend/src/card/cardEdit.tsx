@@ -21,7 +21,7 @@ const CardEdit: React.FC = () =>{
     useEffect(() =>{
         const fetchCard = async () =>{
             try{
-                const response = await apiClient.get<card>(`/api/card/${id}/`);
+                const response = await apiClient.get<card>(`/card/${id}/`);
                 setTitle(response.data.title);
                 setDescription(response.data.description);
                 setLoading(false);
